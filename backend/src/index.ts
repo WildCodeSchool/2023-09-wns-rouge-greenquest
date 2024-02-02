@@ -10,7 +10,7 @@ import { buildSchema } from "type-graphql";
 import { dataSource } from "./datasource";
 import { UserResolver } from "./resolvers/Users";
 
-const port = 5000;
+const port = process.env.BACK_PORT || 5050;
 
 async function start() {
   const app = express();
