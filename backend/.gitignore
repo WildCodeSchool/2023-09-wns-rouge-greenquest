@@ -1,0 +1,4 @@
+node_modules
+tgc.sqlite
+src/controllers
+.env
