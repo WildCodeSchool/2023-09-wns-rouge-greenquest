@@ -26,9 +26,13 @@ docker compose -f docker-compose.dev.yml up --build
 
 ## 1er lancement : Créer le bon user dans le container postgres
 
+- Exécutez la commande suivante pour accéder au shell du container postgres :
+
 ```shell
 docker exec -it greenquest-database-1 psql -U postgres
 ```
+
+- Dans le shell postgres, exécutez les commandes suivantes en remplaçant `username` et `password` par les valeurs définies dans les fichiers `.env` et `backend/.env` :
 
 ```sql
 CREATE USER username WITH PASSWORD 'password';
