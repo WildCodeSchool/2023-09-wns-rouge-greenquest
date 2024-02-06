@@ -8,6 +8,8 @@ import http from "http";
 import "reflect-metadata";
 import { buildSchema } from "type-graphql";
 import { dataSource } from "./datasource";
+import { MissionResolver } from "./resolvers/Missions";
+import { QuestResolver } from "./resolvers/Quests";
 import { UserResolver } from "./resolvers/Users";
 
 const port = process.env.BACK_PORT || 5050;
@@ -18,7 +20,7 @@ async function start() {
   const httpServer = http.createServer(app);
 
   const schema = await buildSchema({
-    resolvers: [UserResolver],
+    resolvers: [UserResolver, QuestResolver, MissionResolver],
   });
 
   const server = new ApolloServer({
