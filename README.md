@@ -31,6 +31,6 @@ docker exec -it greenquest_postgres_1 psql -U postgres
 ```
 
 ```sql
-CREATE USER user WITH PASSWORD 'password';
-ALTER USER user WITH SUPERUSER;
+CREATE USER kevin WITH PASSWORD 'password';
+ALTER USER kevin WITH SUPERUSER;
 ```
