@@ -1,6 +1,17 @@
-import { Arg, ID, Query, Resolver, Mutation } from "type-graphql";
+import {
+  Arg,
+  ID,
+  Query,
+  Resolver,
+  Mutation,
+  Ctx,
+  Authorized,
+} from "type-graphql";
 import { User, UserCreateInput } from "../entities/User";
 import { validate } from "class-validator";
+import Cookies from "cookies";
+import jwt from "jsonwebtoken";
+import { ContextType } from "../auth";
 
 const argon2 = require("argon2");
 
@@ -50,5 +61,55 @@ export class UserResolver {
 
     await newUser.save();
     return newUser;
+  }
+
+  // query to get self profile
+  @Authorized()
+  @Query(() => User, { nullable: true })
+  async mySelf(@Ctx() context: ContextType): Promise<User | null> {
+    return context.req, context.res;
+  }
+
+  @Mutation(() => User, { nullable: true })
+  async signin(
+    @Ctx() context: { req: any; res: any },
+    @Arg("email") email: string,
+    @Arg("password") password: string
+  ): Promise<User | null> {
+    const existingUser = await User.findOneBy({ email });
+    //verify if user exists
+    if (existingUser) {
+      const isPasswordValid = await argon2.verify(
+        existingUser.hashedPassword,
+        password
+      );
+      // verify if password is valid
+
+      if (isPasswordValid) {
+        const token = jwt.sign(
+          {
+            userId: existingUser.id,
+          },
+          `${process.env.JWT_SECRET}`
+        );
+
+        console.log(token);
+
+        const cookies = new Cookies(context.req, context.res);
+        cookies.set("token", token, {
+          httpOnly: true,
+          secure: false,
+          maxAge: 1000 * 60 * 24,
+        });
+
+        return existingUser;
+      } else {
+        console.log(password, "wrong password");
+        return null;
+      }
+    } else {
+      console.log(existingUser, "user does not exists");
+      return null;
+    }
   }
 }

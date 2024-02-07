@@ -11,6 +11,7 @@ import { dataSource } from "./datasource";
 import { MissionResolver } from "./resolvers/Missions";
 import { QuestResolver } from "./resolvers/Quests";
 import { UserResolver } from "./resolvers/Users";
+import { customAuthChecker } from "./auth";
 
 const port = process.env.BACK_PORT || 5050;
 
@@ -21,6 +22,7 @@ async function start() {
 
   const schema = await buildSchema({
     resolvers: [UserResolver, QuestResolver, MissionResolver],
+    authChecker: customAuthChecker,
   });
 
   const server = new ApolloServer({
