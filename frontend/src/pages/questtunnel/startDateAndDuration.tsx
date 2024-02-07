@@ -14,7 +14,7 @@ export default function StartAndDuration() {
   };
 
   return (
-    <>
+    
       <Layout title="Date de début et durée de la quête">
         <Grid
           container
@@ -88,6 +88,5 @@ export default function StartAndDuration() {
           </Grid>
         </Grid>
       </Layout>
-    </>
   );
 }

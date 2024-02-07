@@ -4,35 +4,46 @@ import {
   Typography,
   Button,
   Paper,
+  Card,
+  CardContent,
+  IconButton,
   Select,
   MenuItem,
   InputLabel,
 } from "@mui/material";
-import { SelectChangeEvent } from "@mui/material";
-
 import { useRouter } from "next/router";
-import { useState } from "react";
+import CloseIcon from "@mui/icons-material/Close";
+import { queryAllMissions } from "@/graphql/queryAllMissions";
+import { useQuery } from "@apollo/client";
 
-enum Difficulty {
-  Beginner = "Débutant",
-  Intermediate = "Confirmé",
-  Expert = "Expert",
-}
+export type MissionType = {
+  id: number;
+  title: string;
+  description?: string;
+  XPValue: number;
+  difficulty: string;
+  byDefault: boolean;
+};
 
 export default function DifficultyLevel() {
   const router = useRouter();
-  const [difficulty, setDifficulty] = useState<Difficulty>(Difficulty.Beginner);
 
   const previousPage = () => {
     router.back();
   };
 
   const nextPage = () => {
-    router.push("/questtunnel/missions");
+    // page suivante
   };
 
-  const difficultyChoice = (event: SelectChangeEvent<Difficulty>) => {
-    setDifficulty(event.target.value as Difficulty);
+  const { data: dataMissions } = useQuery<{ getMissions: MissionType[] }>(
+    queryAllMissions
+  );
+
+  const missions = dataMissions ? dataMissions.getMissions : [];
+
+  const deleteMission = (id: number) => {
+    console.log("Suppression de la mission avec l'ID :", id);
   };
 
   return (
@@ -64,15 +75,42 @@ export default function DifficultyLevel() {
           gap={3}
         >
           <Typography variant="h2" sx={{ fontSize: "1.5rem" }}>
-            Étape 3
+            Étape 4
           </Typography>
+          <Typography variant="h3" sx={{ fontSize: "1rem" }}>
+            Choisissez vos missions
+          </Typography>
+
+          <Grid container direction="column" gap={2} sx={{ width: "100%" }}>
+            {missions.map((mission) => (
+              <Card
+                key={mission.id}
+                sx={{ position: "relative", backgroundColor: "#E0B676" }}
+              >
+                <IconButton
+                  sx={{ position: "absolute", top: 0, right: 0 }}
+                  onClick={() => deleteMission(mission.id)}
+                >
+                  <CloseIcon />
+                </IconButton>
+                <CardContent>
+                  <Typography variant="h5" component="div">
+                    {mission.title}
+                  </Typography>
+                  <Typography variant="body2">{mission.description}</Typography>
+                  <Typography variant="body2">
+                    Points: {mission.XPValue}
+                  </Typography>
+                </CardContent>
+              </Card>
+            ))}
+          </Grid>
           <InputLabel id="select-label">
-            Choisissez le niveau de difficulté
+            Sélectionner une autre mission ?
           </InputLabel>
           <Select
-            value={difficulty}
-            onChange={difficultyChoice}
             fullWidth
+            value="Mission 1"
             variant="outlined"
             sx={{
               "&.Mui-focused fieldset": {
@@ -80,9 +118,11 @@ export default function DifficultyLevel() {
               },
             }}
           >
-            <MenuItem value={"Débutant"}>Débutant</MenuItem>
-            <MenuItem value={"Confirmé"}>Confirmé</MenuItem>
-            <MenuItem value={"Expert"}>Expert</MenuItem>
+            {missions.map((mission) => (
+              <MenuItem key={mission.id} value={mission.title}>
+                {mission.title}
+              </MenuItem>
+            ))}
           </Select>
           <Grid
             container
