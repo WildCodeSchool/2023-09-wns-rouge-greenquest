@@ -1,5 +1,5 @@
 import { validate } from "class-validator";
-import { Arg, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, ID, Mutation, Query, Resolver } from "type-graphql";
 import { Quest, QuestCreateInput } from "../entities/Quest";
 
 @Resolver(Quest)
@@ -13,7 +13,7 @@ export class QuestResolver {
   }
 
   @Query(() => Quest)
-  async getQuestById(@Arg("id") id: number): Promise<Quest> {
+  async getQuestById(@Arg("id", () => ID) id: number): Promise<Quest> {
     const quest = await Quest.findOne({
       where: { id },
       relations: { missions: true },
