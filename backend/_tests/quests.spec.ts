@@ -30,7 +30,6 @@ beforeAll(async () => {
 });
 
 describe("create a new quest", () => {
-  const questResolver = new QuestResolver();
   let createdQuestId: number;
 
   it("should create a new quest", async () => {
@@ -57,23 +56,20 @@ describe("create a new quest", () => {
           }
         `,
       variableValues: { data },
-      contextValue: { questResolver },
     });
 
-    if (response.data && response.data.createQuest) {
-      const createQuest: any = response.data.createQuest;
-      createdQuestId = createQuest.id;
+    const createQuest: any = response.data?.createQuest;
+    createdQuestId = createQuest.id;
 
-      expect(createQuest).toBeDefined();
-      expect(createQuest).toHaveProperty("id");
-      expect(createQuest).toHaveProperty("title", data.title);
-      expect(createQuest).toHaveProperty(
-        "startDate",
-        data.startDate.toISOString()
-      );
-      expect(createQuest).toHaveProperty("duration", data.duration);
-      expect(createQuest).toHaveProperty("difficulty", data.difficulty);
-    }
+    expect(createQuest).toBeDefined();
+    expect(createQuest).toHaveProperty("id");
+    expect(createQuest).toHaveProperty("title", data.title);
+    expect(createQuest).toHaveProperty(
+      "startDate",
+      data.startDate.toISOString()
+    );
+    expect(createQuest).toHaveProperty("duration", data.duration);
+    expect(createQuest).toHaveProperty("difficulty", data.difficulty);
   });
 
   it("should find the created quest by its ID", async () => {
@@ -88,14 +84,11 @@ describe("create a new quest", () => {
           }
         `,
       variableValues: { Id: createdQuestId },
-      contextValue: { questResolver },
     });
 
-    if (response.data && response.data.getQuestById) {
-      const foundQuest = response.data.getQuestById;
+    const foundQuest = response.data?.getQuestById;
 
-      expect(foundQuest).toBeDefined();
-      expect(foundQuest).toHaveProperty("id", createdQuestId);
-    }
+    expect(foundQuest).toBeDefined();
+    expect(foundQuest).toHaveProperty("id", createdQuestId);
   });
 });
