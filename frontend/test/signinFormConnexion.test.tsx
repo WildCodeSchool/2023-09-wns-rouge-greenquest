@@ -2,22 +2,11 @@ import React from "react";
 import { render, fireEvent, waitFor, screen } from "@testing-library/react";
 import SigninForm from "../src/components/SigninForm";
 import { RouterContext } from "next/dist/shared/lib/router-context";
-/* import router from "next/router";
- */ import { MockedProvider } from "@apollo/client/testing";
+import { MockedProvider } from "@apollo/client/testing";
 import { mutationSignin } from "@/graphql/mutationSignin";
-import { Typography } from "@mui/material";
+
 import mockRouter from "next-router-mock";
-
-jest.mock("next/router", () => jest.requireActual("next-router-mock"));
-
-// mutation signin
-/* export const doSigninMutation = gql`
-  mutation signin($password: String!, $email: String!) {
-    signin(password: $password, email: $email) {
-      id
-    }
-  }
-`; */
+import router from "next/router";
 
 // mocks des données envoyées et reçues
 const mocks = [
@@ -54,8 +43,9 @@ const mocks = [
 describe("Signin mutation", () => {
   // Avant chaque test
   beforeEach(() => {
+
     // Mock du router
-    /* jest.mock("next/router", () => ({
+    jest.mock("next/router", () => ({
       useRouter: () => ({
         route: "/",
         pathname: "",
@@ -70,16 +60,14 @@ describe("Signin mutation", () => {
         beforePopState: jest.fn(() => null),
         prefetch: jest.fn(() => null),
       }),
-    })); */
+    }));
 
     // Rendu du composant SigninForm avec le mock du router le mock d'Apollo Provider
     render(
       <MockedProvider mocks={mocks} addTypename={false}>
-        {/*         <RouterContext.Provider value={mockRouter}>
-         */}{" "}
-        <SigninForm />
-        {/*         </RouterContext.Provider>
-         */}{" "}
+        <RouterContext.Provider value={mockRouter}>
+          <SigninForm />
+        </RouterContext.Provider>
       </MockedProvider>
     );
   });
@@ -88,39 +76,33 @@ describe("Signin mutation", () => {
     // Déclenchement de l'event de connexion
     fireEvent.click(screen.getByRole("button", { name: "Connexion" }));
 
-    expect(mockRouter.replace).toMatchObject({
-      asPath: "/",
-      pathname: "",
-      query: "",
-    });
-
     // Si connexion réussie, le router doit rediriger l'utilisateur vers la page d'accueil
-    /* await waitFor(() => {
+    await waitFor(() => {
       expect(router.replace).toHaveBeenCalledWith("/");
-    }); */
+    });
   });
 
   it("should not sign user with invalid credentials", async () => {
-    fireEvent.change(screen.getByLabelText("Email"), {
+    // Simulation de la saisie d'informations incorrectes dans les champs d'entrée
+    fireEvent.change(screen.getByTestId("email-input"), {
       target: { value: "wrong@example.com" },
     });
-    fireEvent.change(screen.getByLabelText("Mot de passe"), {
-      target: { value: "wrongassword" },
+    fireEvent.change(screen.getByTestId("password-input"), {
+      target: { value: "wrongpassword" },
     });
 
-    expect(screen.getByLabelText("Email")).toHaveValue("wrong@example.com");
-    expect(screen.getByLabelText("Mot de passe")).toHaveValue("wrongpassword");
+    // Vérification que les valeurs ont été correctement saisies
+    expect(screen.getByTestId("email-input")).toHaveValue("wrong@example.com");
+    expect(screen.getByTestId("password-input")).toHaveValue("wrongpassword");
 
-    fireEvent.click(screen.getByRole("button", { name: "Connexion" }));
+    // Déclenchement de la soumission du formulaire
+    fireEvent.click(screen.getByTestId("submit-button"));
 
-    // Si connexion échoue, un message d'erreur doit apparaître
+    // Attendre que le message d'erreur s'affiche
     await waitFor(() => {
-      expect(Typography).toHaveBeenCalledWith(
-        "Les identifiants sont incorrects"
-      );
-      /* expect(
+      expect(
         screen.getByText("Les identifiants sont incorrects")
-      ).toBeInTheDocument(); */
+      ).toBeInTheDocument();
     });
   });
 });

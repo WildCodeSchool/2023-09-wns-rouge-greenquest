@@ -64,8 +64,8 @@ const Signin = () => {
       <Grid container direction="column" spacing={2}>
         <Grid item container justifyContent="center">
           <Typography variant="body1" gutterBottom sx={{ width: "60%" }}>
-            Connecte toi ou inscrit toi pour participer à une quête et
-            valider tes missions quotidiennes !
+            Connecte toi ou inscrit toi pour participer à une quête et valider
+            tes missions quotidiennes !
           </Typography>
         </Grid>
         <Grid item container justifyContent="center">
@@ -79,6 +79,7 @@ const Signin = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             sx={{ width: "60%" }}
+            data-testid="email-input"
           />
         </Grid>
         <Grid item container justifyContent="center">
@@ -108,6 +109,7 @@ const Signin = () => {
               ),
             }}
             sx={{ width: "60%" }}
+            data-testid="password-input"
           />
         </Grid>
         <Grid item container justifyContent="center">
@@ -118,7 +120,7 @@ const Signin = () => {
           )}
         </Grid>
         <Grid item container justifyContent="center">
-          <Button variant="contained" type="submit">
+          <Button variant="contained" type="submit" data-testid="submit-button">
             Connexion
           </Button>
         </Grid>

@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "@apollo/client": "^3.9.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.16"
   }
 }
