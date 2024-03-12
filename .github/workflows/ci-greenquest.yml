@@ -28,5 +28,5 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          context: "{{defaultContext}}:backend"
+          # context: "{{defaultContext}}:backend"
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/greenquest:latest
