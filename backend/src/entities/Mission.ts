@@ -32,9 +32,9 @@ export class Mission extends BaseEntity {
   @Field()
   createdAt!: Date;
 
-  @Column({ type: "enum", enum: Difficulty, default: Difficulty.EASY })
+  @Column({ default: "EASY" })
   @Field(() => Difficulty)
-  difficulty!: Difficulty;
+  difficulty!: string;
 
   @Column({ default: false })
   @Field()

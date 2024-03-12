@@ -3,8 +3,9 @@ import { DataSource } from "typeorm";
 import { Mission } from "./entities/Mission";
 import { Quest } from "./entities/Quest";
 import { User } from "./entities/User";
+import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
 
-export const dataSource = new DataSource({
+export const dataSourceOptions: PostgresConnectionOptions = {
   type: "postgres",
   host: process.env.DB_HOST,
   port: 5432,
@@ -15,4 +16,6 @@ export const dataSource = new DataSource({
   entities: [User, Quest, Mission],
   synchronize: true,
   logging: true,
-});
+};
+
+export const dataSource = new DataSource(dataSourceOptions);
