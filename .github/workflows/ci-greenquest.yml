@@ -3,15 +3,15 @@ name: jest-and-docker-ci
 on: push
 
 jobs:
-  # test-back:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Check out code
-  #       uses: actions/checkout@v4
-  #     - name: Goto backend and run tests
-  #       run: cd backend && npm i && npm test
+  test-back:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Goto backend and run tests
+        run: cd backend && npm i && npm test
   docker:
-    # needs: test-back
+    needs: test-back
     # if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
