@@ -15,7 +15,7 @@ jobs:
         run: cd backend && npm i && npm test
   docker:
     needs: test-back
-    if: ${{ github.event_name == 'pull_request' && github.ref == 'refs/heads/dev' }}
+    if: ${{ github.event_name == 'pull_request' && github.base_ref == 'dev' }}
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU
