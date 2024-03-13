@@ -2,6 +2,7 @@ name: Notify Slack on Workflow Failure
 
 on:
   workflow_run:
+    workflows: ["jest-and-docker-frontend", "jest-and-docker-backend"]
     types:
       - completed
 
