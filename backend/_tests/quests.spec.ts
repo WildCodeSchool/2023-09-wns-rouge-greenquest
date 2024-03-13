@@ -13,11 +13,11 @@ let schema: GraphQLSchema;
 beforeAll(async () => {
   dataSource = new DataSource({
     ...dataSourceOptions,
-    host: "127.0.0.1",
-    port: 5433,
-    username: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE,
+    host: process.env.POSTGRES_HOST || "127.0.0.1",
+    port: parseInt(process.env.POSTGRES_PORT || "5432"),
+    username: process.env.POSTGRES_USER,
+    password: process.env.POSTGRES_PASSWORD,
+    database: process.env.POSTGRES_DB,
     dropSchema: true,
     logging: false,
   });
