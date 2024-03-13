@@ -66,12 +66,16 @@ const Signin = () => {
           <img
             src="/assets/singin-page-picture.jpg"
             alt="Description de l'image"
-            style={{ width: "100%", height: "auto", paddingBottom: "100px" }}
+            style={{ width: "720px", height: "auto", marginBottom: "100px" }}
           />
         </Grid>
 
         <Grid item container justifyContent="center">
-          <Typography variant="body1" gutterBottom sx={{ width: "60%" }}>
+          <Typography
+            variant="body1"
+            gutterBottom
+            sx={{ width: "60%", textAlign: "center", marginBottom: "20px" }}
+          >
             Connecte toi ou inscrit toi pour participer à une quête et valider
             tes missions quotidiennes !
           </Typography>
@@ -80,8 +84,7 @@ const Signin = () => {
         <Grid item container justifyContent="center">
           <div
             style={{
-              backgroundColor: "#e6e3e3",
-
+              backgroundColor: "#ECEBF5",
               padding: "20px",
               borderRadius: "5px",
               width: "60%",
@@ -103,7 +106,7 @@ const Signin = () => {
                 helperText={emailError ? "Format de l'email incorrect" : ""}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                fullWidth // Pour occuper toute la largeur du conteneur parent
+                fullWidth
               />
             </Grid>
 
@@ -148,7 +151,7 @@ const Signin = () => {
               <Button
                 variant="contained"
                 type="submit"
-                sx={{ marginTop: "20px" }}
+                sx={{ marginTop: "30px" }}
               >
                 Connexion
               </Button>
@@ -160,7 +163,7 @@ const Signin = () => {
           <Typography
             variant="body1"
             gutterBottom
-            sx={{ width: "60%", textAlign: "center", paddingTop: "60px" }}
+            sx={{ width: "60%", textAlign: "center", marginTop: "60px" }}
           >
             Tu n'as pas de compte ?
           </Typography>
