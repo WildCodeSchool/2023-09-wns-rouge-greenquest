@@ -45,4 +45,4 @@ jobs:
           status: failure
           text: "Le workflow 'jest-and-docker-frontend' a échoué."
         env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
