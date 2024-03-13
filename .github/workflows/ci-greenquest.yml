@@ -32,4 +32,4 @@ jobs:
         with:
           push: true
           context: "{{defaultContext}}:backend"
-          tags: ${{ secrets.DOCKERHUB_REPO_BACKEND }}:latest, , ${{ secrets.DOCKERHUB_REPO_BACKEND }}:${{ github.sha }}
+          tags: ${{ secrets.DOCKERHUB_REPO_BACKEND }}:latest, ${{ secrets.DOCKERHUB_REPO_BACKEND }}:${{ github.sha }}
