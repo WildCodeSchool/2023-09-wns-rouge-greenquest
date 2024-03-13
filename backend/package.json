@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "docker stop pgtesting ; docker run --rm --name pgtesting -p 5571:5432 -e POSTGRES_PASSWORD=pgpassword -d postgres && npx jest",
     "start": "tsnd --poll --respawn --transpile-only ./src/index.ts"
   },
   "keywords": [],
