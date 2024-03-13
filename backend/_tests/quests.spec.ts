@@ -14,10 +14,10 @@ beforeAll(async () => {
   dataSource = new DataSource({
     ...dataSourceOptions,
     host: "127.0.0.1",
-    port: 5433,
-    username: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE,
+    port: 5571,
+    username: "postgres",
+    password: "pgpassword",
+    database: "postgres",
     dropSchema: true,
     logging: false,
   });
