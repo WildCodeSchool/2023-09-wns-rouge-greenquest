@@ -63,63 +63,117 @@ const Signin = () => {
     <form onSubmit={handleSignIn}>
       <Grid container direction="column" spacing={2}>
         <Grid item container justifyContent="center">
-          <Typography variant="body1" gutterBottom sx={{ width: "60%" }}>
-            Connecte toi ou inscrit toi pour participer à une quête et
-            valider tes missions quotidiennes !
+          <img
+            src="/assets/singin-page-picture.jpg"
+            alt="Description de l'image"
+            style={{ width: "720px", height: "auto", marginBottom: "100px" }}
+          />
+        </Grid>
+
+        <Grid item container justifyContent="center">
+          <Typography
+            variant="body1"
+            gutterBottom
+            sx={{ width: "60%", textAlign: "center", marginBottom: "20px" }}
+          >
+            Connecte toi ou inscrit toi pour participer à une quête et valider
+            tes missions quotidiennes !
           </Typography>
         </Grid>
+
         <Grid item container justifyContent="center">
-          <TextField
-            error={emailError}
-            required
-            id="email"
-            label="Email"
-            variant="outlined"
-            helperText={emailError ? "Format de l'email incorrect" : ""}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            sx={{ width: "60%" }}
-          />
-        </Grid>
-        <Grid item container justifyContent="center">
-          <TextField
-            error={passwordError}
-            required
-            id="password"
-            label="Mot de passe"
-            variant="outlined"
-            helperText={
-              passwordError
-                ? "Le mot de passe doit faire au moins 8 caractères"
-                : ""
-            }
-            type={showPassword ? "text" : "password"}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            InputProps={{
-              endAdornment: (
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  edge="end"
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              ),
+          <div
+            style={{
+              backgroundColor: "#ECEBF5",
+              padding: "20px",
+              borderRadius: "5px",
+              width: "60%",
             }}
-            sx={{ width: "60%" }}
-          />
+          >
+            <Grid
+              item
+              container
+              justifyContent="center"
+              sx={{ marginBottom: "10px" }}
+            >
+              <TextField
+                sx={{ marginTop: "20px" }}
+                error={emailError}
+                required
+                id="email"
+                label="Email"
+                variant="outlined"
+                helperText={emailError ? "Format de l'email incorrect" : ""}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                fullWidth
+              />
+            </Grid>
+
+            <Grid
+              item
+              container
+              justifyContent="center"
+              sx={{ marginBottom: "10px" }}
+            >
+              <TextField
+                error={passwordError}
+                required
+                id="password"
+                label="Mot de passe"
+                variant="outlined"
+                helperText={
+                  passwordError
+                    ? "Le mot de passe doit faire au moins 8 caractères"
+                    : ""
+                }
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                fullWidth
+              />
+            </Grid>
+
+            <Grid item container justifyContent="center">
+              {failedConnexion && (
+                <Typography variant="body2" color="error" gutterBottom>
+                  Les identifiants sont incorrects
+                </Typography>
+              )}
+            </Grid>
+
+            <Grid
+              item
+              container
+              justifyContent="center"
+              sx={{ marginBottom: "10px" }}
+            >
+              <Button
+                variant="contained"
+                type="submit"
+                sx={{ marginTop: "30px" }}
+              >
+                Connexion
+              </Button>
+            </Grid>
+          </div>
         </Grid>
+
         <Grid item container justifyContent="center">
-          {failedConnexion && (
-            <Typography variant="body2" color="error" gutterBottom>
-              Les identifiants sont incorrects
-            </Typography>
-          )}
+          <Typography
+            variant="body1"
+            gutterBottom
+            sx={{ width: "60%", textAlign: "center", marginTop: "60px" }}
+          >
+
+            Tu n'as pas de compte ?
+
+          </Typography>
         </Grid>
+
         <Grid item container justifyContent="center">
-          <Button variant="contained" type="submit">
-            Connexion
+          <Button variant="outlined" onClick={() => router.push("/signup")}>
+            Inscription
           </Button>
         </Grid>
       </Grid>

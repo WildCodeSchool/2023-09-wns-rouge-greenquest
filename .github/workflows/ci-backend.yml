@@ -1,9 +1,9 @@
 name: jest-and-docker-backend
 
-on: 
+on:
   pull_request:
-    paths:
-      - "backend/**"
+    #paths:
+      #- "backend/**"
 
 jobs:
   test-back:
