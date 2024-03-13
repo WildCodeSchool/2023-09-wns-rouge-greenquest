@@ -1,6 +1,9 @@
 name: jest-and-docker-ci
 
-on: push
+on: 
+  push:
+    paths:
+      - "backend/**"
 
 jobs:
   test-back:
@@ -29,4 +32,4 @@ jobs:
         with:
           push: true
           context: "{{defaultContext}}:backend"
-          tags: ${{ secrets.DOCKERHUB_REPO_BACKEND }}:latest
+          tags: ${{ secrets.DOCKERHUB_REPO_BACKEND }}:latest, , ${{ secrets.DOCKERHUB_REPO_BACKEND }}:${{ github.sha }}
