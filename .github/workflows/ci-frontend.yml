@@ -15,7 +15,7 @@ jobs:
         run: cd frontend && npm i && npm test
   docker:
     needs: test-front
-    if: github.ref == 'refs/heads/dev'
+    if: ${{ github.event_name == 'pull_request' && github.ref == 'refs/heads/dev' }}
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU
