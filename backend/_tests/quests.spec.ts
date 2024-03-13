@@ -17,7 +17,7 @@ beforeAll(async () => {
     port: 5571,
     username: "postgres",
     password: "pgpassword",
-    database: "postgres",
+    // database: "postgres",
     dropSchema: true,
     logging: false,
   });
