@@ -34,15 +34,3 @@ jobs:
           context: "frontend"
           tags: ${{ secrets.DOCKERHUB_REPO_FRONTEND }}:latest, ${{ secrets.DOCKERHUB_REPO_FRONTEND }}:${{ github.sha }}
 
-  notify-failure:
-    runs-on: ubuntu-latest
-    needs: docker
-    if: failure()
-    steps:
-      - name: Notify Slack on failure
-        uses: 8398a7/action-slack@v3
-        with:
-          status: failure
-          text: "Le workflow 'jest-and-docker-frontend' a échoué."
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
