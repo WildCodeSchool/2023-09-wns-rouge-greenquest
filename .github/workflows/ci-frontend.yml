@@ -2,8 +2,8 @@ name: jest-and-docker-frontend
 
 on: 
   pull_request:
-    paths:
-      - "frontend/**"
+    #paths:
+      #- "frontend/**"
 
 jobs:
   test-front:
