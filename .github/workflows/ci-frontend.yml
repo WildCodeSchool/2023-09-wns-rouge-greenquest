@@ -38,7 +38,7 @@ jobs:
 
   docker:
     needs: [test-front, has-changes]
-    if: github.ref == 'refs/heads/betterCI' && needs.has-changes.outputs.has-changes == 'true'
+    if: ${{ github.event_name == 'pull_request' && github.base_ref == 'dev' && needs.has-changes.outputs.has-changes == 'true' }} 
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU
