@@ -10,24 +10,24 @@ import { GraphQLSchema } from "graphql";
 let dataSource: DataSource;
 let schema: GraphQLSchema;
 
-// beforeAll(async () => {
-//   dataSource = new DataSource({
-//     ...dataSourceOptions,
-//     host: "127.0.0.1",
-//     port: 5571,
-//     username: "postgres",
-//     password: "pgpassword",
-//     database: "postgres",
-//     dropSchema: true,
-//     logging: false,
-//   });
+beforeAll(async () => {
+  dataSource = new DataSource({
+    ...dataSourceOptions,
+    host: "127.0.0.1",
+    port: 5571,
+    username: "postgres",
+    password: "pgpassword",
+    database: "postgres",
+    dropSchema: true,
+    logging: false,
+  });
 
-//   await dataSource.initialize();
+  await dataSource.initialize();
 
-//   schema = await buildSchema({
-//     resolvers: [QuestResolver],
-//   });
-// });
+  schema = await buildSchema({
+    resolvers: [QuestResolver],
+  });
+});
 
 describe("create a new quest", () => {
   let createdQuestId: number;
