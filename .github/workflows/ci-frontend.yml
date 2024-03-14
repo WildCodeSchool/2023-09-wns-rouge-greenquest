@@ -1,21 +1,46 @@
 name: jest-and-docker-frontend
 
 on: 
-  pull_request:
+  push:
     #paths:
       #- "frontend/**"
 
 jobs:
-  test-front:
+  has-changes:
     runs-on: ubuntu-latest
+    outputs:
+      has-changes: ${{ steps.check-changes.outputs.frontend }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Get current branch name
+        id: get_branch_name
+        run: echo "::set-output name=branch::$(git rev-parse --abbrev-ref HEAD)"
+      - name: Check for changes in frontend directory
+        id: check-changes
+        uses: dorny/paths-filter@v3
+        with:
+          base:  ${{ github.ref }}
+          filters: |
+            frontend:
+              - frontend/**'
+      - name: Inspect has-changes output
+        run: |
+          echo "has-changes: ${{ steps.check-changes.outputs.frontend }}"
+  
+  test-front:
+    needs: has-changes
+    runs-on: ubuntu-latest
+    if: needs.has-changes.outputs.has-changes == 'true'
     steps:
       - name: Check out code
         uses: actions/checkout@v4
       - name: Goto frontend and run tests
         run: cd frontend && npm i && npm test
+
   docker:
-    needs: test-front
-    if: ${{ github.event_name == 'pull_request' && github.base_ref == 'main' }}
+    needs: [test-front, has-changes]
+    if: github.ref == 'refs/heads/betterCI' && needs.has-changes.outputs.has-changes == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU
