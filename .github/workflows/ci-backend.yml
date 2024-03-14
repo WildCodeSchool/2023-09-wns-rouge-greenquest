@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Skip tests
-        if: needs.has-changes.outputs.has-changes != 'true'
+        if: needs.has-changes.outputs.has-changes == 'false'
         run: exit 0;
       - name: Check out code
         uses: actions/checkout@v4
