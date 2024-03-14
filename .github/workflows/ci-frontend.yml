@@ -23,7 +23,7 @@ jobs:
           base:  ${{ github.ref }}
           filters: |
             frontend:
-              - frontend/**'
+              - 'frontend/**'
       - name: Inspect has-changes output
         run: |
           echo "has-changes: ${{ steps.check-changes.outputs.frontend }}"
