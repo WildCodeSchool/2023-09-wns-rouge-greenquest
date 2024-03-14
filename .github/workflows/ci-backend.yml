@@ -22,9 +22,6 @@ jobs:
           filters: |
             backend:
               - 'backend/**'
-      - name: Gihub ref
-        run: |
-          echo "${{ github.ref }}"
       - name: Inspect has-changes output
         run: |
           echo "has-changes: ${{ steps.check-changes.outputs.backend }}"
@@ -58,5 +55,5 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          context: "backend"
+          context: "{{defaultContext}}:backend"
           tags: ${{ secrets.DOCKERHUB_REPO_BACKEND }}:latest, ${{ secrets.DOCKERHUB_REPO_BACKEND }}:${{ github.sha }}
