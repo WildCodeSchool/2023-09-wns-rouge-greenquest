@@ -1,9 +1,7 @@
 name: jest-and-docker-frontend
 
 on: 
-  push:
-    #paths:
-      #- "frontend/**"
+  pull_request:
 
 jobs:
   has-changes:
@@ -56,6 +54,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          context: "frontend"
+          context: "{{defaultContext}}:frontend"
           tags: ${{ secrets.DOCKERHUB_REPO_FRONTEND }}:latest, ${{ secrets.DOCKERHUB_REPO_FRONTEND }}:${{ github.sha }}
 

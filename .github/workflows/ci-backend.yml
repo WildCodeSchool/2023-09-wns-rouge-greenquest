@@ -1,7 +1,7 @@
 name: jest-and-docker-backend
 
 on:
-  push:
+  pull_request:
 
 jobs:
   has-changes:
