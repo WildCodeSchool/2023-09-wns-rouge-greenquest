@@ -1,21 +1,38 @@
 name: jest-and-docker-backend
 
 on:
-  pull_request:
-    #paths:
-      #- "backend/**"
+  push:
 
 jobs:
-  test-back:
+  has-changes:
     runs-on: ubuntu-latest
+    outputs:
+      has-changes: ${{ steps.check-changes.outputs.has-changes }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Check for changes in backend directory
+        uses: dorny/paths-filter@v3
+        id: check-changes
+        with:
+          base: ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
+          filters: |
+            backend:
+              - 'backend/**'
+
+  test-back:
+    needs: has-changes
+    runs-on: ubuntu-latest
+    if: needs.has-changes.outputs.has-changes == 'true'
     steps:
       - name: Check out code
         uses: actions/checkout@v4
       - name: Goto backend and run tests
         run: cd backend && npm i && npm test
+
   docker:
-    needs: test-back
-    if: ${{ github.event_name == 'pull_request' && github.base_ref == 'main' }}
+    needs: [test-back, has-changes] 
+    if: github.ref == 'refs/heads/dev' && needs.has-changes.outputs.has-changes == 'false'
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU
