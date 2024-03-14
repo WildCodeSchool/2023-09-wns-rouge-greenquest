@@ -25,8 +25,13 @@ docker compose -f docker-compose.dev.yml up --build
 ```
 ## Lancement des tests du backend
 
-- Si vous êtes sur linux ou mac : cd backend ; npm test
-- Si vous êtes sur windows ou wsl : cd backend ; lancer toute la commande : 
+- Si vous êtes sur linux ou mac : 
 ```shell
+cd backend
+npm test
+```
+- Si vous êtes sur windows ou wsl : cd backend ; lancer toute la commande : 
+```wsl
+cd backend
 docker stop pgtesting ; docker run --rm --name pgtesting -p 5571:5432 -e POSTGRES_PASSWORD=pgpassword -d postgres && npx jest
 ```

@@ -1,11 +1,21 @@
 import Layout from "@/components/Layout";
 import { Grid, Typography, TextField, Button, Paper } from "@mui/material";
 import { useRouter } from "next/router";
+import { useState } from "react";
+import { useQuestContext } from "@/contexts/QuestContext";
 
 export default function QuestTunnel() {
   const router = useRouter();
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const { setQuestInfo } = useQuestContext();
 
   const nextPage = () => {
+    setQuestInfo({
+      title: title,
+      description: description,
+    });
+
     router.push("/questtunnel/startDateAndDuration");
   };
 
@@ -45,6 +55,8 @@ export default function QuestTunnel() {
             fullWidth
             margin="normal"
             InputProps={{ style: { borderRadius: 8 } }}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
           />
           <TextField
             label="Description de la quête (facultative)"
@@ -54,6 +66,8 @@ export default function QuestTunnel() {
             rows={4}
             margin="normal"
             InputProps={{ style: { borderRadius: 8 } }}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
           />
           <Button
             variant="contained"
