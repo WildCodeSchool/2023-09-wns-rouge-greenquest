@@ -11,11 +11,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Get current branch name
+        id: get_branch_name
+        run: echo "::set-output name=branch::$(git rev-parse --abbrev-ref HEAD)"
       - name: Check for changes in backend directory
-        uses: dorny/paths-filter@v3
         id: check-changes
+        uses: dorny/paths-filter@v3
         with:
-          base: ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
+          base: ${GITHUB_REF#refs/heads/}
           filters: |
             backend:
               - 'backend/**'
