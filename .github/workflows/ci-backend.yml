@@ -1,21 +1,45 @@
 name: jest-and-docker-backend
 
 on:
-  pull_request:
-    #paths:
-      #- "backend/**"
+  push:
 
 jobs:
-  test-back:
+  has-changes:
     runs-on: ubuntu-latest
+    outputs:
+      has-changes: ${{ steps.check-changes.outputs.backend }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Get current branch name
+        id: get_branch_name
+        run: echo "::set-output name=branch::$(git rev-parse --abbrev-ref HEAD)"
+      - name: Check for changes in backend directory
+        id: check-changes
+        uses: dorny/paths-filter@v3
+        with:
+          base:  ${{ github.ref }}
+          filters: |
+            backend:
+              - 'backend/**'
+      - name: Inspect has-changes output
+        run: |
+          echo "has-changes: ${{ steps.check-changes.outputs.backend }}"
+
+  test-back:
+    needs: has-changes
+    runs-on: ubuntu-latest
+    if: needs.has-changes.outputs.has-changes == 'true'
     steps:
       - name: Check out code
         uses: actions/checkout@v4
       - name: Goto backend and run tests
         run: cd backend && npm i && npm test
+        
+
   docker:
-    needs: test-back
-    if: ${{ github.event_name == 'pull_request' && github.base_ref == 'main' }}
+    needs: [test-back, has-changes] 
+    if: ${{ github.base_ref == 'main' && needs.has-changes.outputs.has-changes == 'true' }} 
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU
@@ -31,5 +55,5 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          context: "backend"
+          context: "{{defaultContext}}:backend"
           tags: ${{ secrets.DOCKERHUB_REPO_BACKEND }}:latest, ${{ secrets.DOCKERHUB_REPO_BACKEND }}:${{ github.sha }}
