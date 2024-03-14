@@ -29,20 +29,17 @@ jobs:
   test-back:
     needs: has-changes
     runs-on: ubuntu-latest
+    if: needs.has-changes.outputs.has-changes == 'true'
     steps:
-      - name: Skip tests
-        if: needs.has-changes.outputs.has-changes != 'true'
-        run: exit 0;
       - name: Check out code
         uses: actions/checkout@v4
-        if: needs.has-changes.outputs.has-changes == 'true'
       - name: Goto backend and run tests
         run: cd backend && npm i && npm test
-        if: needs.has-changes.outputs.has-changes == 'true'
+        
 
   docker:
     needs: [test-back, has-changes] 
-    if: github.ref == 'refs/heads/dev' && needs.has-changes.outputs.has-changes != 'true'
+    if: github.ref == 'refs/heads/betterCI' && needs.has-changes.outputs.has-changes == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU
