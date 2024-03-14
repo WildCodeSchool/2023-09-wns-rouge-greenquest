@@ -1,7 +1,7 @@
 name: jest-and-docker-frontend
 
 on: 
-  pull_request:
+  push:
 
 jobs:
   has-changes:
@@ -38,7 +38,7 @@ jobs:
 
   docker:
     needs: [test-front, has-changes]
-    if: ${{ github.event_name == 'pull_request' && github.base_ref == 'main' && needs.has-changes.outputs.has-changes == 'true' }} 
+    if: ${{ github.base_ref == 'main' && needs.has-changes.outputs.has-changes == 'true' }} 
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU
