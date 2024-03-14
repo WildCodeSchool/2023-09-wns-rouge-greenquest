@@ -22,13 +22,16 @@ jobs:
           filters: |
             backend:
               - 'backend/**'
+      - name: Inspect has-changes output
+        run: |
+          echo "has-changes: ${{ steps.check-changes.outputs.has-changes }}"
 
   test-back:
     needs: has-changes
     runs-on: ubuntu-latest
     steps:
       - name: Skip tests
-        if: needs.has-changes.outputs.has-changes == 'false'
+        if: needs.has-changes.outputs.has-changes != 'true'
         run: exit 0;
       - name: Check out code
         uses: actions/checkout@v4
