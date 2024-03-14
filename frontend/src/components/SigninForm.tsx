@@ -4,6 +4,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useMutation } from "@apollo/client";
 import { mutationSignin } from "@/graphql/mutationSignin";
 import { useRouter } from "next/router";
+import theme from "@/styles/theme";
 
 const Signin = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -103,6 +104,7 @@ const Signin = () => {
                 id="email"
                 label="Email"
                 variant="outlined"
+                color="secondary"
                 helperText={emailError ? "Format de l'email incorrect" : ""}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -122,6 +124,7 @@ const Signin = () => {
                 id="password"
                 label="Mot de passe"
                 variant="outlined"
+                color="secondary"
                 helperText={
                   passwordError
                     ? "Le mot de passe doit faire au moins 8 caractères"
@@ -149,6 +152,7 @@ const Signin = () => {
               sx={{ marginBottom: "10px" }}
             >
               <Button
+                color="secondary"
                 variant="contained"
                 type="submit"
                 sx={{ marginTop: "30px" }}
@@ -165,14 +169,16 @@ const Signin = () => {
             gutterBottom
             sx={{ width: "60%", textAlign: "center", marginTop: "60px" }}
           >
-
             Tu n'as pas de compte ?
-
           </Typography>
         </Grid>
 
         <Grid item container justifyContent="center">
-          <Button variant="outlined" onClick={() => router.push("/signup")}>
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={() => router.push("/signup")}
+          >
             Inscription
           </Button>
         </Grid>

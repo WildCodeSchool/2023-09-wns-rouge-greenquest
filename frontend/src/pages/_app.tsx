@@ -12,6 +12,10 @@ import {
   createHttpLink,
 } from "@apollo/client";
 
+//imports relatifs au thème global MaterialUI
+import theme from "@/styles/theme";
+import { ThemeProvider } from "@emotion/react";
+
 const link = createHttpLink({
   uri: "http://localhost:5050/",
   credentials: "include",
@@ -29,7 +33,9 @@ const client = new ApolloClient({
 function App({ Component, pageProps }: AppProps) {
   return (
     <ApolloProvider client={client}>
-      <Component {...pageProps} />;
+      <ThemeProvider theme={theme}>
+        <Component {...pageProps} />;
+      </ThemeProvider>
     </ApolloProvider>
   );
 }
