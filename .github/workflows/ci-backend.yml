@@ -18,7 +18,7 @@ jobs:
         id: check-changes
         uses: dorny/paths-filter@v3
         with:
-          base: ${GITHUB_REF#refs/heads/}
+          base: ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
           filters: |
             backend:
               - 'backend/**'
