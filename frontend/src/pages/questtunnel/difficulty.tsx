@@ -9,25 +9,25 @@ import {
   InputLabel,
 } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material";
-
+import {Difficulty, useQuestContext} from "@/contexts/QuestContext";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-enum Difficulty {
-  Beginner = "Débutant",
-  Intermediate = "Confirmé",
-  Expert = "Expert",
-}
-
 export default function DifficultyLevel() {
   const router = useRouter();
-  const [difficulty, setDifficulty] = useState<Difficulty>(Difficulty.Beginner);
+  const [difficulty, setDifficulty] = useState<Difficulty>(Difficulty.EASY);
+  const { setQuestInfo } = useQuestContext();
 
   const previousPage = () => {
     router.back();
   };
 
   const nextPage = () => {
+    setQuestInfo((prevQuestInfo) => ({
+      ...prevQuestInfo,
+      difficulty: difficulty,
+    }));
+
     router.push("/questtunnel/missions");
   };
 
@@ -80,9 +80,9 @@ export default function DifficultyLevel() {
               },
             }}
           >
-            <MenuItem value={"Débutant"}>Débutant</MenuItem>
-            <MenuItem value={"Confirmé"}>Confirmé</MenuItem>
-            <MenuItem value={"Expert"}>Expert</MenuItem>
+            <MenuItem value={"EASY"}>Débutant</MenuItem>
+            <MenuItem value={"MEDIUM"}>Confirmé</MenuItem>
+            <MenuItem value={"HARD"}>Expert</MenuItem>
           </Select>
           <Grid
             container
