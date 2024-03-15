@@ -7,7 +7,7 @@ import {
   Ctx,
   Authorized,
 } from "type-graphql";
-import { User, UserCreateInput } from "../entities/User";
+import { User, UserCreateInput, UserUpdateInput } from "../entities/User";
 import { validate } from "class-validator";
 import Cookies from "cookies";
 import jwt from "jsonwebtoken";
@@ -68,6 +68,43 @@ export class UserResolver {
   @Query(() => User, { nullable: true })
   async mySelf(@Ctx() context: ContextType): Promise<User | null> {
     return context.req, context.res;
+  }
+  // query de Màj des data utilisateur
+  @Authorized()
+  @Mutation(() => User)
+  async updateUser(
+    @Arg("data", () => UserUpdateInput) data: UserUpdateInput,
+
+    @Ctx() context: ContextType
+  ): Promise<User> {
+
+    // Extraction de l'identifiant de l'utilisateur à partir du contexte
+    const userId = context?.user?.id;
+
+    if (!userId) {
+      throw new Error("Vous devez être connecté pour effectuer cette action");
+    }
+
+    const user = await User.findOneBy({ id: userId });
+
+    if (!user) {
+      throw new Error("Utilisateur non trouvé");
+    }
+
+    // Màj des données de l'utilisateur en fonction des données fournies
+    if (data.firstname !== undefined) {
+      user.firstname = data.firstname;
+    }
+    if (data.lastname !== undefined) {
+      user.lastname = data.lastname;
+    }
+    if (data.nickname !== undefined) {
+      user.nickname = data.nickname;
+    }
+
+    await user.save(); // ENregistrement en BDD
+
+    return user;
   }
 
   @Mutation(() => User, { nullable: true })

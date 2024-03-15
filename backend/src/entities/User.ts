@@ -80,3 +80,22 @@ export class UserCreateInput {
   @Matches(/^.{8,50}$/)
   password!: string;
 }
+
+@InputType()
+export class UserUpdateInput {
+  @Field({ nullable: true })
+  @Length(3, 50)
+  firstname?: string;
+
+  @Field({ nullable: true })
+  @Length(3, 50)
+  lastname?: string;
+
+  @Field({ nullable: true })
+  @Length(3, 50)
+  nickname?: string;
+
+}
+
+
+
