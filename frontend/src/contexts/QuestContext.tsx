@@ -1,3 +1,4 @@
+import { Dayjs } from "dayjs";
 import React, {
   ReactNode,
   createContext,
@@ -5,8 +6,9 @@ import React, {
   useEffect,
   useState,
 } from "react";
+import {MissionType} from "@/pages/questtunnel/missions";
 
-enum Difficulty {
+export enum Difficulty {
   EASY = "EASY",
   MEDIUM = "MEDIUM",
   HARD = "HARD",
@@ -15,13 +17,13 @@ enum Difficulty {
 export interface QuestData {
   title?: string | null;
   description?: string | null;
-  startDate?: Date | null;
+  startDate?: Date | null | Dayjs;
   duration?: number | null;
   difficulty?: Difficulty | null;
-  missions?: string[];
+  missions?: MissionType[];
 }
 
-interface QuestContextProps {
+export interface QuestContextProps {
   questInfo: QuestData | null;
   setQuestInfo: React.Dispatch<React.SetStateAction<QuestData | null>>;
 }

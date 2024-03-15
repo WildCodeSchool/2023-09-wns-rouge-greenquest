@@ -2,14 +2,15 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import Layout from "@/components/Layout";
 import { Grid, Typography, TextField, Button, Paper } from "@mui/material";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useQuestContext } from "@/contexts/QuestContext";
+import dayjs, { Dayjs } from 'dayjs';
 
 export default function StartAndDuration() {
   const router = useRouter();
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
+  const [startDate, setStartDate] = useState<Dayjs | null>(dayjs('MM-DD-YYYY'));
   const [duration, setDuration] = useState<number>(0);
   const { setQuestInfo } = useQuestContext();
 
@@ -61,7 +62,9 @@ export default function StartAndDuration() {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               label="Date de début de la quête"
-              onChange={(newValue: Date | null) => setStartDate(newValue)}
+              value={startDate}
+              onChange={(newValue) => setStartDate(newValue)}
+              sx={{ width: '100%' }}
             />
           </LocalizationProvider>
           <TextField
