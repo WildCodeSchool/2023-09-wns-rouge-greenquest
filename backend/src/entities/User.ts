@@ -97,5 +97,12 @@ export class UserUpdateInput {
 
 }
 
+@InputType()
+export class ChangePasswordInput {
+  @Field()
+  currentPassword: string;
 
+  @Field()
+  newPassword: string;
+}
 
