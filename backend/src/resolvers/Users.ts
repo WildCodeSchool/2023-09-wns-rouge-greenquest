@@ -7,7 +7,12 @@ import {
   Ctx,
   Authorized,
 } from "type-graphql";
-import { User, UserCreateInput } from "../entities/User";
+import {
+  ChangePasswordInput,
+  User,
+  UserCreateInput,
+  UserUpdateInput,
+} from "../entities/User";
 import { validate } from "class-validator";
 import Cookies from "cookies";
 import jwt from "jsonwebtoken";
@@ -68,6 +73,84 @@ export class UserResolver {
   @Query(() => User, { nullable: true })
   async mySelf(@Ctx() context: ContextType): Promise<User | null> {
     return context.req, context.res;
+  }
+  // query de Màj des data utilisateur
+  @Authorized()
+  @Mutation(() => User)
+  async updateUser(
+    @Arg("data", () => UserUpdateInput) data: UserUpdateInput,
+
+    @Ctx() context: ContextType
+  ): Promise<User> {
+    // Extraction de l'identifiant de l'utilisateur à partir du contexte
+    const userId = context?.user?.id;
+
+    if (!userId) {
+      throw new Error("Vous devez être connecté pour effectuer cette action");
+    }
+
+    const user = await User.findOneBy({ id: userId });
+
+    if (!user) {
+      throw new Error("Utilisateur non trouvé");
+    }
+
+    // Màj des données de l'utilisateur en fonction des données fournies
+    if (data.firstname !== undefined) {
+      user.firstname = data.firstname;
+    }
+    if (data.lastname !== undefined) {
+      user.lastname = data.lastname;
+    }
+    if (data.nickname !== undefined) {
+      user.nickname = data.nickname;
+    }
+
+    await user.save(); // ENregistrement en BDD
+
+    return user;
+  }
+
+  // Mutation de MàJ du mot passe utilisateur
+  @Authorized()
+  @Mutation(() => Boolean)
+  async changePassword(
+    @Arg("data") data: ChangePasswordInput,
+    @Ctx() context: ContextType
+  ): Promise<boolean> {
+    const { currentPassword, newPassword } = data;
+
+    // Récupération de l'ID de l'utilisateur à partir du contexte
+    const userId = context?.user?.id;
+
+    if (!userId) {
+      throw new Error("Vous devez être connecté pour effectuer cette action");
+    }
+
+    const user = await User.findOneBy({ id: userId });
+
+    if (!user) {
+      throw new Error("Utilisateur non trouvé");
+    }
+
+    // Vérification du mot de passe actuel
+    const isPasswordValid = await argon2.verify(
+      user.hashedPassword,
+      currentPassword
+    );
+
+    if (!isPasswordValid) {
+      throw new Error("Mot de passe actuel incorrect");
+    }
+
+    // Hash du nouveau mot de passe
+    const hashedNewPassword = await argon2.hash(newPassword);
+
+    // Mise à jour du mot de passe dans la base de données
+    user.hashedPassword = hashedNewPassword;
+    await user.save();
+
+    return true;
   }
 
   @Mutation(() => User, { nullable: true })
