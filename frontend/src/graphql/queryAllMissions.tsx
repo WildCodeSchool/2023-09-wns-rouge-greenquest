@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const queryAllMissions = gql`
-  query getMissions {
-    getMissions {
+  query getMissions($sortBy: Difficulty) {
+    getMissions(sortBy: $sortBy) {
       id
       title
       description

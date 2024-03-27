@@ -78,6 +78,6 @@ export class QuestCreateInput {
   @Field(() => Difficulty, { nullable: true })
   difficulty!: Difficulty;
 
-  @Field(() => [ObjectID], { nullable: true })
-  missions: ObjectID[];
+  @Field(() => [ID], { nullable: true })
+  missions: number[];
 }

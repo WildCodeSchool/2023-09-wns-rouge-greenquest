@@ -2,26 +2,31 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import Layout from "@/components/Layout";
 import { Grid, Typography, TextField, Button, Paper } from "@mui/material";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useQuestContext } from "@/contexts/QuestContext";
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from "dayjs";
 
 export default function StartAndDuration() {
   const router = useRouter();
-  const [startDate, setStartDate] = useState<Dayjs | null>(dayjs('MM-DD-YYYY'));
+  const [startDate, setStartDate] = useState<Dayjs | null>(dayjs("MM-DD-YYYY"));
   const [duration, setDuration] = useState<number>(0);
   const { setQuestInfo } = useQuestContext();
+  const { questInfo } = useQuestContext();
 
   const previousPage = () => {
     router.back();
   };
 
   const nextPage = () => {
+    // Convertir la date de début en Dayjs avant de la définir
+    const formattedStartDate = startDate?.toISOString();
+    console.log(formattedStartDate);
+
     setQuestInfo((prevQuestInfo) => ({
       ...prevQuestInfo,
-      startDate: startDate,
+      startDate: formattedStartDate,
       duration: duration,
     }));
 
@@ -64,7 +69,7 @@ export default function StartAndDuration() {
               label="Date de début de la quête"
               value={startDate}
               onChange={(newValue) => setStartDate(newValue)}
-              sx={{ width: '100%' }}
+              sx={{ width: "100%" }}
             />
           </LocalizationProvider>
           <TextField
