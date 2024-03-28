@@ -1,6 +1,7 @@
 import { validate } from "class-validator";
 import { Arg, ID, Mutation, Query, Resolver } from "type-graphql";
 import { Quest, QuestCreateInput } from "../entities/Quest";
+import { Mission } from "../entities/Mission";
 
 @Resolver(Quest)
 export class QuestResolver {
@@ -30,16 +31,26 @@ export class QuestResolver {
     @Arg("data", () => QuestCreateInput) data: QuestCreateInput
   ): Promise<Quest> {
     const newQuest = new Quest();
-
-    Object.assign(newQuest, data);
+    newQuest.title = data.title;
+    newQuest.description = data.description;
+    newQuest.startDate = data.startDate;
+    newQuest.duration = data.duration;
+    newQuest.difficulty = data.difficulty;
 
     const errors = await validate(newQuest);
-
-    if (errors.length === 0) {
-      await newQuest.save();
-      return newQuest;
-    } else {
-      throw new Error(`Validation failed!`);
+    if (errors.length > 0) {
+      throw new Error(
+        `Validation failed: ${errors.map((err) => err.toString()).join(", ")}`
+      );
     }
+
+    if (data.missions && data.missions.length > 0) {
+      const missions = await Mission.findByIds(data.missions);
+      newQuest.missions = missions;
+    }
+
+    await newQuest.save();
+
+    return newQuest;
   }
 }

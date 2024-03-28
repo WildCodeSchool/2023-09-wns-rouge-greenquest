@@ -10,7 +10,13 @@ export default function QuestTunnel() {
   const [description, setDescription] = useState("");
   const { setQuestInfo } = useQuestContext();
 
+  const MIN_TITLE_LENGTH = 5;
+
   const nextPage = () => {
+    // Vérification du titre
+    if (title.trim().length < MIN_TITLE_LENGTH) {
+      return;
+    }
     setQuestInfo({
       title: title,
       description: description,
@@ -57,6 +63,12 @@ export default function QuestTunnel() {
             InputProps={{ style: { borderRadius: 8 } }}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            helperText={
+              title.length > 0 && title.length < MIN_TITLE_LENGTH
+                ? `Minimum ${MIN_TITLE_LENGTH} caractères requis`
+                : ""
+            }
+            error={title.length > 0 && title.length < MIN_TITLE_LENGTH}
           />
           <TextField
             label="Description de la quête (facultative)"
@@ -73,6 +85,7 @@ export default function QuestTunnel() {
             variant="contained"
             sx={{ bgcolor: "#7BD389", color: "#000000" }}
             onClick={nextPage}
+            disabled={title.trim().length < MIN_TITLE_LENGTH}
           >
             Suivant
           </Button>

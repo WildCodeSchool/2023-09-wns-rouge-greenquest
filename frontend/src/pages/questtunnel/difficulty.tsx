@@ -9,7 +9,7 @@ import {
   InputLabel,
 } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material";
-import {Difficulty, useQuestContext} from "@/contexts/QuestContext";
+import { Difficulty, useQuestContext } from "@/contexts/QuestContext";
 import { useRouter } from "next/router";
 import { useState } from "react";
 

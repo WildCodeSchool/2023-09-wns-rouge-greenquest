@@ -1,4 +1,3 @@
-import { Dayjs } from "dayjs";
 import React, {
   ReactNode,
   createContext,
@@ -6,7 +5,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import {MissionType} from "@/pages/questtunnel/missions";
+import { MissionType } from "@/pages/questtunnel/missions";
 
 export enum Difficulty {
   EASY = "EASY",
@@ -17,7 +16,7 @@ export enum Difficulty {
 export interface QuestData {
   title?: string | null;
   description?: string | null;
-  startDate?: Date | null | Dayjs;
+  startDate?: string | null;
   duration?: number | null;
   difficulty?: Difficulty | null;
   missions?: MissionType[];
@@ -37,8 +36,19 @@ const QuestContext = createContext<QuestContextProps | undefined>(undefined);
 export const QuestProvider: React.FC<QuestProviderProps> = ({ children }) => {
   const [questInfo, setQuestInfo] = useState<QuestData | null>(null);
 
+  // Récupérer les données de la quête depuis sessionStorage lors du montage du composant
   useEffect(() => {
-    console.log("Quest info updated:", questInfo);
+    const storedQuestData = sessionStorage.getItem("questData");
+    if (storedQuestData) {
+      setQuestInfo(JSON.parse(storedQuestData));
+    }
+  }, []);
+
+  // Sauvegarder les données de la quête dans sessionStorage à chaque mise à jour
+  useEffect(() => {
+    if (questInfo) {
+      sessionStorage.setItem("questData", JSON.stringify(questInfo));
+    }
   }, [questInfo]);
 
   return (

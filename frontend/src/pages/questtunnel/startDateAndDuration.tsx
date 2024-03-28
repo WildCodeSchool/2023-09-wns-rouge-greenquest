@@ -2,15 +2,16 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import Layout from "@/components/Layout";
 import { Grid, Typography, TextField, Button, Paper } from "@mui/material";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { useQuestContext } from "@/contexts/QuestContext";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { useQuestContext } from "@/contexts/QuestContext";
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from "dayjs";
+import "dayjs/locale/fr";
 
 export default function StartAndDuration() {
   const router = useRouter();
-  const [startDate, setStartDate] = useState<Dayjs | null>(dayjs('MM-DD-YYYY'));
+  const [startDate, setStartDate] = useState<Dayjs | null>(null);
   const [duration, setDuration] = useState<number>(0);
   const { setQuestInfo } = useQuestContext();
 
@@ -19,9 +20,11 @@ export default function StartAndDuration() {
   };
 
   const nextPage = () => {
+    const formattedStartDate = startDate?.toISOString();
+
     setQuestInfo((prevQuestInfo) => ({
       ...prevQuestInfo,
-      startDate: startDate,
+      startDate: formattedStartDate,
       duration: duration,
     }));
 
@@ -59,12 +62,14 @@ export default function StartAndDuration() {
           <Typography variant="h2" sx={{ fontSize: "1.5rem" }}>
             Étape 2
           </Typography>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="fr">
             <DatePicker
               label="Date de début de la quête"
+              format="DD/MM/YYYY"
               value={startDate}
               onChange={(newValue) => setStartDate(newValue)}
-              sx={{ width: '100%' }}
+              sx={{ width: "100%" }}
+              minDate={dayjs()}
             />
           </LocalizationProvider>
           <TextField
@@ -94,6 +99,7 @@ export default function StartAndDuration() {
               variant="contained"
               sx={{ bgcolor: "#7BD389", color: "#000000" }}
               onClick={nextPage}
+              disabled={!startDate || duration <= 0}
             >
               Suivant
             </Button>
