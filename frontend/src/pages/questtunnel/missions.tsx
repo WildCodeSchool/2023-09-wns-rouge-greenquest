@@ -71,7 +71,6 @@ export default function Missions() {
     if (dataMissions) {
       setMissions(dataMissions.getMissions.slice(0, 3));
     }
-    console.log(questInfo);
   }, [dataMissions]);
 
   const previousPage = () => {
@@ -96,6 +95,9 @@ export default function Missions() {
           },
         },
       });
+
+      sessionStorage.clear();
+
       router.push("/questtunnel/questLink");
     } catch (err) {
       console.error("Error creating quest:", err);
@@ -198,6 +200,7 @@ export default function Missions() {
               variant="contained"
               onClick={validateQuest}
               sx={{ bgcolor: "#7BD389", color: "#000000" }}
+              disabled={missions.length <= 0}
             >
               Valider
             </Button>

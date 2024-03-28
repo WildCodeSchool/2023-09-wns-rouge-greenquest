@@ -20,7 +20,6 @@ export default function StartAndDuration() {
   };
 
   const nextPage = () => {
-    // Convertir la date de début en Dayjs avant de la définir
     const formattedStartDate = startDate?.toISOString();
 
     setQuestInfo((prevQuestInfo) => ({
@@ -100,7 +99,7 @@ export default function StartAndDuration() {
               variant="contained"
               sx={{ bgcolor: "#7BD389", color: "#000000" }}
               onClick={nextPage}
-              disabled={!startDate || duration < 0}
+              disabled={!startDate || duration <= 0}
             >
               Suivant
             </Button>
