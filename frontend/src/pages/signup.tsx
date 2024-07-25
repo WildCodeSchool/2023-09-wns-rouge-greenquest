@@ -98,9 +98,9 @@ const Signup = () => {
               />
             </Grid>
             <Grid item container justifyContent="center">
-              <Typography variant="body1" gutterBottom>
+              <Typography variant="h2">
                 Inscrit toi ou connecte toi pour participer à une quête et
-                valider tes missions quotidiennes !
+                valider des missions quotidiennement 🏹 !
               </Typography>
               <br />
               <br />

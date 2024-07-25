@@ -4,7 +4,12 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { QuestType } from "../QuestsTab";
 import { userType } from "../Header";
-import { Button, IconButton, ThemeProvider } from "@mui/material";
+import {
+  Button,
+  IconButton,
+  SnackbarContent,
+  ThemeProvider,
+} from "@mui/material";
 import { useMutation } from "@apollo/client";
 import { mutationDeleteQuest } from "@/graphql/mutationDeleteQuest";
 import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
@@ -262,18 +267,29 @@ export default function BasicModal({
         anchorOrigin={{ vertical, horizontal }}
         open={open}
         onClose={handleCloseSnackbar}
-        message={`La quête ${quest?.title} a été supprimée ✅`}
         autoHideDuration={5000}
         key={vertical + horizontal}
         sx={{
           "& .MuiSnackbarContent-root": {
-            backgroundColor: "white ",
-            color: "#DBAD42",
+            backgroundColor: "#333",
+            color: "#fff",
             borderRadius: "10px",
             fontSize: "15px",
           },
         }}
-      />
+      >
+        <SnackbarContent
+          message={
+            <span>
+              La quête{" "}
+              <strong>
+                <em>{quest?.title}</em>
+              </strong>{" "}
+              a été supprimée 👍🏻
+            </span>
+          }
+        />
+      </Snackbar>
     </div>
   );
 }

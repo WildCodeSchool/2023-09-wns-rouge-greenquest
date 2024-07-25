@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -6,17 +6,17 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import { queryMySelf } from "@/graphql/queryMySelf";
-import { useQuery } from "@apollo/client";
-import { useRouter } from "next/router";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Link from "next/link";
 import HeaderModal from "./modals/HeaderModal";
+import { useQuery } from "@apollo/client";
+import { queryMySelf } from "@/graphql/queryMySelf";
 import { userMissionType } from "./MissionsTab";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import { ThemeProvider } from "@mui/material/styles";
 import { headerTheme, HeaderLogo } from "@/themes/headerTheme";
+import router from "next/router";
 
 export type userType = {
   id: number;
@@ -29,7 +29,6 @@ export type userType = {
 };
 
 const Header = () => {
-  const router = useRouter();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -39,16 +38,7 @@ const Header = () => {
       : "/api";
 
   const { loading, data, error } = useQuery<{ item: userType }>(queryMySelf);
-
   const me = data && data?.item;
-
-  useEffect(() => {
-    if (data) {
-      console.log("connecté");
-    } else {
-      console.log("non connecté");
-    }
-  }, [data]);
 
   const handleCloseModal = () => {
     setModalOpen(false);
@@ -85,30 +75,29 @@ const Header = () => {
           <Toolbar>
             {!me && (
               <>
-                <>
-                  <Link href="/">
-                    <HeaderLogo
-                      src={`/images/greenquest_logo.png`}
-                      alt="Greenquest_logo"
-                      loading="lazy"
-                    />
-                  </Link>
-                </>
+                <Link href="/">
+                  <HeaderLogo
+                    src={`/images/greenquest_logo.png`}
+                    alt="Greenquest_logo"
+                    loading="lazy"
+                  />
+                </Link>
                 <Typography
                   variant="h4"
                   sx={{
                     flexGrow: 1,
                     textAlign: "center",
                     color: "#fff",
+                    fontFamily: "'Titan One', sans-serif",
+                    fontWeight: "bold",
+                    fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
+                    letterSpacing: "0.1rem",
                   }}
                 >
-                  Greenquest
+                  <span style={{ color: "green" }}>Green</span>
+                  <span style={{ color: "black" }}>Quest</span>
                 </Typography>
-                <Stack
-                  direction="row"
-                  // spacing={2}
-                  sx={{}}
-                >
+                <Stack direction="row">
                   {router.pathname === "/signin" ? (
                     <Link href="/signup" passHref>
                       <Button color={"success"} variant="contained">
@@ -142,6 +131,7 @@ const Header = () => {
                       backgroundColor: "#f5f5f5",
                       boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
                       transition: "background-color 0.3s ease",
+                      marginLeft: "0.5rem",
                     }}
                   >
                     {me.image ? (
@@ -149,8 +139,8 @@ const Header = () => {
                         src={`${backUrl}${me.image.uri}`}
                         alt="Avatar"
                         style={{
-                          width: "4rem",
-                          height: "4rem",
+                          width: "3.5rem",
+                          height: "3.5rem",
                           borderRadius: "50%",
                           objectFit: "cover",
                         }}
@@ -159,10 +149,10 @@ const Header = () => {
                       <AccountCircle
                         sx={{
                           fontSize: {
-                            xs: "3.5rem",
-                            sm: "4rem",
-                            md: "3.5rem",
-                            lg: "4rem",
+                            xs: "3.5rem", // taille de la police pour les écrans extra-petits
+                            sm: "4rem", // taille de la police pour les petits écrans
+                            md: "3.5rem", // taille de la police pour les écrans moyens
+                            lg: "4rem", // taille de la police pour les grands écrans
                           },
                         }}
                       />

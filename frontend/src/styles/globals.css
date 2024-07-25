@@ -13,17 +13,7 @@ body {
   padding: 0;
   background-color: #efefef;
   font-family: "Roboto", sans-serif;
-  /* overflow-x: hidden; */
 }
-
-/* main {
-  background-color: #efefef;
-  margin: 0 auto;
-  padding: 1rem;
-  width: 100%;
-  height: 100vh;
-  border-radius: 0;
-} */
 
 h1 {
   font-family: "Titan One", sans-serif;
@@ -55,10 +45,6 @@ p {
     font-size: 14px;
   }
 
-  /*   main {
-    padding: 0.5rem;
-  } */
-
   h1 {
     font-size: 1.5rem;
   }
@@ -89,14 +75,6 @@ p {
     font-size: 18px;
   }
 
-  /*   main {
-    padding: 1.5rem;
-    margin: 2rem auto;
-    width: 720px;
-    height: auto;
-    border-radius: 1.5rem;
-  }
- */
   h1 {
     font-size: 2.5rem;
   }
@@ -111,14 +89,6 @@ p {
   body {
     font-size: 20px;
   }
-
-  /*   main {
-    margin: 3rem auto;
-    width: 80%;
-    max-width: 1200px;
-    height: auto;
-    border-radius: 2rem;
-  } */
 
   h1 {
     font-size: 3rem;

@@ -44,16 +44,16 @@ const ProfileTheme = createTheme({
             fontSize: "1.1rem",
           },
           [theme.breakpoints.up("sm")]: {
-            fontSize: "1.3rem",
+            fontSize: "1.2rem",
           },
           [theme.breakpoints.up("md")]: {
-            fontSize: "1.5rem",
+            fontSize: "1.3rem",
           },
           [theme.breakpoints.up("lg")]: {
-            fontSize: "1.7rem",
+            fontSize: "1.4rem",
           },
           [theme.breakpoints.up("xl")]: {
-            fontSize: "1.9rem",
+            fontSize: "1.5rem",
           },
         }),
         body1: ({ theme }) => ({
@@ -107,24 +107,24 @@ const ProfileTheme = createTheme({
           borderRadius: "8px",
           boxShadow: theme.shadows[2],
           [theme.breakpoints.up("xs")]: {
-            fontSize: "0.9rem",
+            fontSize: "0.8rem",
             padding: theme.spacing(1),
           },
           [theme.breakpoints.up("sm")]: {
-            fontSize: "1rem",
+            fontSize: "0.8rem",
             padding: theme.spacing(1.5),
           },
           [theme.breakpoints.up("md")]: {
-            fontSize: "1.1rem",
+            fontSize: "0.9rem",
             padding: theme.spacing(2),
           },
           [theme.breakpoints.up("lg")]: {
-            fontSize: "1.2rem",
-            padding: theme.spacing(2.5),
+            fontSize: "0.9rem",
+            padding: theme.spacing(2),
           },
           [theme.breakpoints.up("xl")]: {
-            fontSize: "1.3rem",
-            padding: theme.spacing(3),
+            fontSize: "1rem",
+            padding: theme.spacing(2),
           },
         }),
       },
@@ -152,16 +152,16 @@ const ProfileContainer = styled(Paper)(({ theme }) => ({
     width: "90%",
   },
   [theme.breakpoints.up("sm")]: {
-    width: "80%",
+    width: "90%",
   },
   [theme.breakpoints.up("md")]: {
-    width: "70%",
+    width: "90%",
   },
   [theme.breakpoints.up("lg")]: {
-    width: "60%",
+    width: "90%",
   },
   [theme.breakpoints.up("xl")]: {
-    width: "50%",
+    width: "90%",
   },
 }));
 

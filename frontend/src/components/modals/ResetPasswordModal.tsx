@@ -46,11 +46,13 @@ export function ResetPasswordModal({
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: 400,
+          width: { xs: "80%", sm: "80%", md: "80%", lg: "90%" },
+          maxWidth: "1000px",
           bgcolor: "background.paper",
           border: "2px solid #000",
           boxShadow: 24,
-          p: 4,
+          p: { xs: 2, sm: 3, md: 4 },
+          borderRadius: 2,
         }}
       >
         <Box
@@ -60,16 +62,35 @@ export function ResetPasswordModal({
             alignItems: "center",
           }}
         >
-          <Typography variant="h6" component="h2">
+          <Typography
+            variant="h2"
+            sx={{
+              fontSize: { xs: "12.5px", sm: "16px", md: "18px" },
+              textAlign: "left",
+            }}
+          >
             Réinitialisation du mot de passe
           </Typography>
-          <IconButton onClick={handleClose}>
+          <IconButton
+            onClick={handleClose}
+            sx={{
+              pr: 0,
+            }}
+          >
             <CloseIcon />
           </IconButton>
         </Box>
         {resetEmailSent ? (
-          <Typography variant="body1" sx={{ mt: 2 }}>
-            Un email de réinitialisation a été envoyé à ton adresse mail.
+          <Typography
+            variant="body1"
+            sx={{
+              width: "100%",
+              fontSize: { xs: "12.5px", sm: "16px", md: "18px" },
+              fontWeight: "normal",
+              textAlign: "left",
+            }}
+          >
+            Un email de réinitialisation a été envoyé à ton adresse mail 📤
           </Typography>
         ) : (
           <form onSubmit={resetPassword}>
@@ -84,15 +105,40 @@ export function ResetPasswordModal({
               autoFocus
               value={resetEmail}
               onChange={(e) => setResetEmail(e.target.value)}
+              sx={{
+                width: "100%",
+                height: "3rem",
+                mb: 2,
+                ml: 0,
+                input: {
+                  fontSize: { xs: "14px", sm: "16px", md: "18px" },
+                  height: { xs: "20px", sm: "20px", md: "20px" },
+                },
+                label: {
+                  fontSize: { xs: "12px", sm: "14px", md: "16px" },
+                },
+                "& .MuiFormHelperText-root": {
+                  fontSize: { xs: "12px", sm: "14px", md: "16px" },
+                },
+              }}
             />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                mt: 2,
+              }}
             >
-              Envoyer
-            </Button>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ width: "50%" }}
+              >
+                Envoyer
+              </Button>
+            </Box>
           </form>
         )}
       </Box>

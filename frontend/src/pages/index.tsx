@@ -4,7 +4,7 @@ import {
   HomeFirstContainer,
   HomeLogo,
 } from "@/themes/homeTheme";
-import { Button, Typography, Box, ThemeProvider } from "@mui/material";
+import { Button, Typography, ThemeProvider } from "@mui/material";
 import router from "next/router";
 
 export default function Home() {
@@ -33,9 +33,6 @@ export default function Home() {
             onClick={() => router.push("/signup")}
           >
             Inscription
-          </Button>
-          <Button variant="contained" color="primary">
-            Découvrir la plateforme
           </Button>
         </HomeSecondContainer>
       </HomeFirstContainer>

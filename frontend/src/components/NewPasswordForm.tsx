@@ -1,6 +1,5 @@
 import React, { FormEvent, useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import Image from "next/image";
 import {
   Button,
   Grid,
@@ -8,6 +7,7 @@ import {
   Typography,
   IconButton,
   InputAdornment,
+  Box,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useMutation } from "@apollo/client";
@@ -79,137 +79,144 @@ const NewPasswordForm = () => {
     <form onSubmit={handleResetPassword}>
       <Grid container direction="column" spacing={2}>
         <Grid item container justifyContent="center">
-          <Image
-            src="/images/singin-page-picture.jpg"
-            alt="Description de l'image"
-            width={720}
-            height={300}
+          <Box
+            sx={{
+              position: "relative",
+              width: "100%",
+              height: { xs: "30vh", sm: "30vh", md: "40vh", lg: "40vh" },
+              backgroundImage: `url('/images/singin-page-picture.jpg')`,
+              backgroundSize: "cover",
+              backgroundPosition: "bottom",
+              backgroundRepeat: "no-repeat",
+              overflow: "hidden",
+            }}
           />
         </Grid>
 
         <Grid item container justifyContent="center">
           <Typography
-            variant="body1"
+            variant="body2"
             gutterBottom
-            sx={{ width: "60%", textAlign: "center", marginBottom: "20px" }}
+            sx={{
+              width: "90%",
+              maxWidth: "600px",
+              textAlign: "center",
+              marginBottom: "10px",
+              marginTop: "10px",
+              fontWeight: "bold",
+            }}
           >
-            Rentre ton nouveau mot de passe
+            Rentre ton nouveau mot de passe 🔒
           </Typography>
         </Grid>
 
         <Grid item container justifyContent="center">
-          <div
-            style={{
+          <Box
+            sx={{
               backgroundColor: "#ECEBF5",
               padding: "20px",
               borderRadius: "5px",
-              width: "60%",
+              width: "90%",
+              maxWidth: "600px",
             }}
           >
             <Grid
-              item
               container
+              direction="column"
+              spacing={2}
               justifyContent="center"
-              sx={{ marginBottom: "10px" }}
             >
-              <TextField
-                error={passwordError}
-                required
-                id="new-password"
-                label="Nouveau mot de passe"
-                variant="outlined"
-                color="secondary"
-                helperText={
-                  passwordError
-                    ? "Le mot de passe doit faire au moins 8 caractères"
-                    : ""
-                }
-                type={showPassword ? "text" : "password"}
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                fullWidth
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={clickShowPassword}
-                        edge="end"
-                      >
-                        {showPassword ? <Visibility /> : <VisibilityOff />}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
+              <Grid item>
+                <TextField
+                  error={passwordError}
+                  required
+                  id="new-password"
+                  label="Nouveau mot de passe"
+                  variant="outlined"
+                  color="secondary"
+                  helperText={
+                    passwordError
+                      ? "Le mot de passe doit faire au moins 8 caractères"
+                      : ""
+                  }
+                  type={showPassword ? "text" : "password"}
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  fullWidth
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={clickShowPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </Grid>
 
-            <Grid
-              item
-              container
-              justifyContent="center"
-              sx={{ marginBottom: "10px" }}
-            >
-              <TextField
-                error={confirmPasswordError}
-                required
-                id="confirm-password"
-                label="Confirmer le mot de passe"
-                variant="outlined"
-                color="secondary"
-                helperText={
-                  confirmPasswordError
-                    ? "Les mots de passe ne correspondent pas"
-                    : ""
-                }
-                type={showConfirmPassword ? "text" : "password"}
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                fullWidth
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={clickShowConfirmPassword}
-                        edge="end"
-                      >
-                        {showConfirmPassword ? (
-                          <Visibility />
-                        ) : (
-                          <VisibilityOff />
-                        )}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
+              <Grid item>
+                <TextField
+                  error={confirmPasswordError}
+                  required
+                  id="confirm-password"
+                  label="Confirmer le mot de passe"
+                  variant="outlined"
+                  color="secondary"
+                  helperText={
+                    confirmPasswordError
+                      ? "Les mots de passe ne correspondent pas"
+                      : ""
+                  }
+                  type={showConfirmPassword ? "text" : "password"}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  fullWidth
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={clickShowConfirmPassword}
+                          edge="end"
+                        >
+                          {showConfirmPassword ? (
+                            <Visibility />
+                          ) : (
+                            <VisibilityOff />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </Grid>
 
-            <Grid item container justifyContent="center">
-              {resetError && (
-                <Typography variant="body2" color="error" gutterBottom>
-                  Échec de la réinitialisation du mot de passe
-                </Typography>
-              )}
-            </Grid>
+              <Grid item>
+                {resetError && (
+                  <Typography variant="body2" color="error" gutterBottom>
+                    Échec de la réinitialisation du mot de passe
+                  </Typography>
+                )}
+              </Grid>
 
-            <Grid
-              item
-              container
-              justifyContent="center"
-              sx={{ marginBottom: "10px" }}
-            >
-              <Button
-                color="secondary"
-                variant="contained"
-                type="submit"
-                sx={{ marginTop: "30px" }}
-              >
-                Réinitialiser le mot de passe
-              </Button>
+              <Grid item>
+                <Button
+                  color="secondary"
+                  variant="contained"
+                  type="submit"
+                  fullWidth
+                  sx={{ marginTop: "20px" }}
+                >
+                  Réinitialiser le mot de passe
+                </Button>
+              </Grid>
             </Grid>
-          </div>
+          </Box>
         </Grid>
       </Grid>
     </form>

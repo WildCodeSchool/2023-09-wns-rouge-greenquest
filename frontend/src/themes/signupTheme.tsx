@@ -1,4 +1,3 @@
-import { Height } from "@mui/icons-material";
 import { createTheme, styled } from "@mui/material/styles";
 
 const SignupTheme = createTheme({
@@ -45,7 +44,7 @@ const SignupTheme = createTheme({
           width: "85%",
           fontSize: "2vh",
           margin: "0.5rem",
-
+          boxShadow: "none",
           [theme.breakpoints.up("md")]: {
             fontSize: "1rem",
           },
@@ -71,7 +70,7 @@ const SignupTheme = createTheme({
     MuiOutlinedInput: {
       styleOverrides: {
         root: ({ theme }) => ({
-          height: "30px",
+          height: "40px",
         }),
       },
     },
@@ -89,6 +88,7 @@ const SignupTheme = createTheme({
           marginBottom: "0.6rem",
           boxShadow: "2",
           borderRadius: "8px",
+          height: "3rem",
 
           [theme.breakpoints.up("xs")]: {
             fontSize: "1.5vh",
@@ -151,21 +151,20 @@ const SignupFormImg = styled("img")(({ theme }) => ({
   height: "24vh",
   marginTop: "px",
   boxShadow: "17px 42px 31px -41px rgba(0, 0, 0, 0.19)",
+  objectFit: "cover",
   [theme.breakpoints.up("sm")]: {
     height: "25vh",
   },
   [theme.breakpoints.up("md")]: {
-    width: "60%",
     height: "38vh",
     borderBottomRightRadius: "8px",
     borderBottomLeftRadius: "8px",
   },
   [theme.breakpoints.up("lg")]: {
-    width: "40%",
+    // width: "40%",
   },
   [theme.breakpoints.up("xl")]: {
     marginTop: "2rem",
-    width: "30%",
     height: "30vh",
     borderRadius: "8px",
   },
